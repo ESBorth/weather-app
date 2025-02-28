@@ -5,8 +5,8 @@ const TopBar = ({ date, timeSetting }) => {
     return (
         <div className = "row">
             <div className = "col-sm-4">
-                <p>{date}</p>
-                <p>{timeSetting}</p>
+                <p className="dateTime">{date}</p>
+                <p className="dateTime">{timeSetting}</p>
             </div>
         </div>
     )
