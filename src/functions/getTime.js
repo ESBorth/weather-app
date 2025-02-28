@@ -9,3 +9,13 @@ export function getTheTime (version) {
         return (`${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`)
     }
 };
+export function isMorning () {
+    const now = new Date();
+    const hours = now.getHours();
+
+    if (hours < 12){
+        return true;
+    } else {
+        return false;
+    }
+}
