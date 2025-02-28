@@ -24,6 +24,11 @@ function App() {
     <div className="app-container">
       <h2>{`Good ${isMorning ? 'Morning' : 'Afternoon'}`}</h2>
       <TopBar date={date} timeSetting={timeSetting}/>
+      <div className="row">
+        <input type="text" placeholder="location" className="col-sm-9"/>
+        <button className="button search col-sm-1">Search</button>
+        <button className="button geolocate col-sm-1"><span class="material-symbols-outlined">location_on</span></button>
+      </div>
     </div>
   );
 }
