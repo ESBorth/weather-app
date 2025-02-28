@@ -1,10 +1,10 @@
 .app-container{
     background-color: rgb(255,255,255,0.25);
     backdrop-filter:blur(8px);
-    width: 70vw;
-    height: 70vh;
-    margin-top: 15vh;
-    margin-left: 15vw;
+    width: 60vw;
+    height: 60vh;
+    margin-top: 20vh;
+    margin-left: 20vw;
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgb(49, 33, 138, 0.15);
     padding: 20px 30px;
