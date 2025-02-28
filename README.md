@@ -6,3 +6,4 @@ to reference this project for features. See notes on features below.
 ## Available Scripts
 
 ## Learn More
+- Added bootstrap: `npm install react-bootstrap bootstrap` 
