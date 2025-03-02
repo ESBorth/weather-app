@@ -5,13 +5,14 @@ import Forecast from './components/forecast.jsx';
 import DarkMode from './components/darkmode.jsx';
 import { getTheDate } from './functions/getDate';
 import { getTheTime, isMorning } from './functions/getTime';
+import { getDefaultColor } from './functions/handleDefaultColor.js';
 
 function App() {
   const [date, setDate] = useState(getTheDate());
   const [timeVer, setTimeVer] = useState('US');
   const [timeSetting, setTimeSetting] = useState(getTheTime(timeVer));
   const [morning, setMorning] = useState(isMorning());
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(getDefaultColor());
 
   useEffect(() => {
     setMorning(isMorning());

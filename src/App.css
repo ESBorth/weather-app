@@ -54,17 +54,20 @@ input[type='text']{
 .button-dark{
     border: 1px solid transparent;
     border-radius: 5px;
-    background-color: rgb(135, 171, 250);
+    background-color: rgb(45, 75, 139);
     margin: 0px 5px;
     padding: 0px 12px;
     width: fit-content;
+    color: rgb(209, 209, 209);
 }
 .geolocate span{
     transform: translateY(2px);
+    font-size: 12pt;
 }
 .geolocate{
     position: absolute;
     right: 10px;
+    height: 28px;
 }
 .search{
     margin-right: 55px;
@@ -118,7 +121,4 @@ input[type='text']{
 .unchecked{
     height: 40px;
     margin: 0px;
-}
-.unchecked-dark{
-
 }
