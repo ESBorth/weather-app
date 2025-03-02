@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import TopBar from './components/topBar.jsx';
 import Forecast from './components/forecast.jsx';
+import DarkMode from './components/darkmode.jsx';
 import { getTheDate } from './functions/getDate';
 import { getTheTime, isMorning } from './functions/getTime';
 
@@ -10,6 +11,7 @@ function App() {
   const [timeVer, setTimeVer] = useState('US');
   const [timeSetting, setTimeSetting] = useState(getTheTime(timeVer));
   const [morning, setMorning] = useState(isMorning());
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     setMorning(isMorning());
@@ -21,15 +23,20 @@ function App() {
     }, 10000);
   })
 
+  const handleCheckedChange = () => {
+    console.log(checked);
+    setChecked(!checked);
+  };
+
   return (
-    <div className="body">
-      <div className="app-container">
+    <div className={`${checked ? "body-dark" : "body" }`}>
+      <div className={`${checked ? "app-container-dark" : "app-container" }`}>
         <h2>{`Good ${isMorning ? 'Morning' : 'Afternoon'}`}</h2>
         <TopBar date={date} timeSetting={timeSetting}/>
         <div className="row searchbar">
           <input type="text" placeholder="location" className="col-sm-9"/>
-          <button className="button search col-sm-1">Search</button>
-          <button className="button geolocate col-sm-1"><span class="material-symbols-outlined">location_on</span></button>
+          <button className={`${checked ? "button-dark " : "button" } search col-sm-1`}>Search</button>
+          <button className={`${checked ? "button-dark " : "button" } geolocate col-sm-1`}><span className="material-symbols-outlined">location_on</span></button>
         </div>
         <hr/>
         <div className="row">
@@ -50,7 +57,9 @@ function App() {
           <Forecast/>
         </div>
       </div>
-      
+      <div onClick={()=>handleCheckedChange()}>
+        <DarkMode checked={checked} setChecked={setChecked} onClick={()=>handleCheckedChange()}/>
+      </div>
     </div>
   );
 }
