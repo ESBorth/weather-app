@@ -32,6 +32,10 @@ input[type='text']{
 .geolocate span{
     transform: translateY(2px);
 }
+.geolocate{
+    position: absolute;
+    right: 10px;
+}
 .search{
     margin-right: 55px;
 }
@@ -70,6 +74,7 @@ input[type='text']{
 .slider:before {
     position: absolute;
     content: "";
+    background-image: "";
     height: 26px;
     width: 26px;
     left: 4px;
@@ -94,6 +99,10 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-input:checked + .icon:before{
+.theme-icon{
+    z-index: 1;
+}
+input:checked + .theme-icon:before{
+
     transform: translateX(26px);
 }
