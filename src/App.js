@@ -5,6 +5,7 @@ import './App.css';
 import TopBar from './components/topBar.jsx';
 import Forecast from './components/forecast.jsx';
 import DarkMode from './components/darkmode.jsx';
+import TempSwitcher from './components/temperatureSwitch.jsx';
 import { getTheDate } from './functions/getDate';
 import { getTheTime, isMorning } from './functions/getTime';
 import { getDefaultColor } from './functions/handleDefaultColor.js';
@@ -17,6 +18,7 @@ function App() {
   const [morning, setMorning] = useState(isMorning());
   const [checked, setChecked] = useState(getDefaultColor());
   const [locationData, setLocationData] = useState();
+  const [switched, setSwitched] = useState(false);
 
   useEffect(() => {
     setMorning(isMorning());
@@ -30,6 +32,10 @@ function App() {
 
   const handleCheckedChange = () => {
     setChecked(!checked);
+  };
+  const handleSwitched = () => {
+    setSwitched(!switched);
+    console.log(switched);
   };
 
   const handleSearch = (data) => {
@@ -66,8 +72,16 @@ function App() {
           <Forecast/>
         </div>
       </div>
-      <div onClick={()=>handleCheckedChange()}>
-        <DarkMode checked={checked} setChecked={setChecked} onClick={()=>handleCheckedChange()}/>
+      <div className = "row">
+        <div className = "col-sm-3"></div>
+        <div className="col-sm-3" onClick={()=>handleCheckedChange()}>
+          <DarkMode checked={checked} setChecked={setChecked}/>
+        </div>
+        <div className="col-sm-3" onClick={()=>handleSwitched()}>
+          <TempSwitcher switched={switched} checked={checked} setSwitched={setSwitched}/>
+        </div>
+      </div>
+      <div>
       </div>
     </div>
   );
