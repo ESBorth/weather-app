@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import './App.css';
 import TopBar from './components/topBar.jsx';
 import Forecast from './components/forecast.jsx';
@@ -6,6 +8,7 @@ import DarkMode from './components/darkmode.jsx';
 import { getTheDate } from './functions/getDate';
 import { getTheTime, isMorning } from './functions/getTime';
 import { getDefaultColor } from './functions/handleDefaultColor.js';
+import { getGeoWeather, getGeoForecast, getInputForecast, getInputWeather } from './functions/getWeather.js';
 
 function App() {
   const [date, setDate] = useState(getTheDate());
@@ -13,6 +16,7 @@ function App() {
   const [timeSetting, setTimeSetting] = useState(getTheTime(timeVer));
   const [morning, setMorning] = useState(isMorning());
   const [checked, setChecked] = useState(getDefaultColor());
+  const [locationData, setLocationData] = useState();
 
   useEffect(() => {
     setMorning(isMorning());
@@ -25,18 +29,22 @@ function App() {
   })
 
   const handleCheckedChange = () => {
-    console.log(checked);
     setChecked(!checked);
   };
+
+  const handleSearch = (data) => {
+    const forecastData = getInputForecast(data);
+    const weatherData = getInputWeather(data);
+  }
 
   return (
     <div className={`${checked ? "body-dark" : "body" }`}>
       <div className={`${checked ? "app-container-dark" : "app-container" }`}>
         <h2>{`Good ${isMorning ? 'Morning' : 'Afternoon'}`}</h2>
-        <TopBar date={date} timeSetting={timeSetting}/>
+        <TopBar date={date} timeSetting={timeSetting}/><br/>
         <div className="row searchbar">
-          <input type="text" placeholder="location" className="col-sm-9"/>
-          <button className={`${checked ? "button-dark " : "button" } search col-sm-1`}>Search</button>
+          <input type="text" placeholder="location" className="col-sm-9" onChange={(e)=> setLocationData(e.target.value)}/>
+          <button className={`${checked ? "button-dark " : "button" } search col-sm-1`} onClick ={() => handleSearch(locationData)}>Search</button>
           <button className={`${checked ? "button-dark " : "button" } geolocate col-sm-1`}><span className="material-symbols-outlined">location_on</span></button>
         </div>
         <hr/>
@@ -53,7 +61,7 @@ function App() {
             <h3>Temp</h3>
             <p><span>High</span> | <span>Low</span></p>
           </div>
-        </div>
+        </div><br/>
         <div className="row">
           <Forecast/>
         </div>
