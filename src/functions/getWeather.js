@@ -2,7 +2,6 @@ import axios from 'axios';
 const APIkey = "49f6fb1cfe73c099a03c55f7abc64bb8";
 
 const geoDecoder = async (input) => {
-    console.log(input);
     if (input.length === 5){
         let zipCode = input;
         let data = await axios.get(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=${APIkey}`)
@@ -26,14 +25,27 @@ export function getGeoForecast () {
 
 }
 
-export function getInputWeather (input) {
-    const data = geoDecoder(input);
+export async function getInputWeather (input, measurement) {
+    const data = await geoDecoder(input);
+    let lat = data.lat;
+    let lon = data.lon;
+    let result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}&units=${measurement}`)
+    .then((x)=> x.data);
+    return result;
 }
-export function getInputForecast (input) {
-    const data = geoDecoder(input);
+export async function getInputForecast (input, measurement) {
+    const data = await geoDecoder(input);
 }
 
-export function convertToCelcius() {
-
+export function switchTemps (temp, measurement) {
+    console.log(measurement);
+    let x = temp;
+    if (measurement === "imperial"){
+        x = Math.floor(((x - 32)) * ((5/9)));
+    } 
+    if (measurement === "metric")  {
+        x = Math.floor((x * (1.8)) + 32);
+    }
+    return x;
 }
 //Add error catch for zipcode if not all 5 characters are numbers

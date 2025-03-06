@@ -9,7 +9,7 @@ import TempSwitcher from './components/temperatureSwitch.jsx';
 import { getTheDate } from './functions/getDate';
 import { getTheTime, isMorning } from './functions/getTime';
 import { getDefaultColor } from './functions/handleDefaultColor.js';
-import { getGeoWeather, getGeoForecast, getInputForecast, getInputWeather } from './functions/getWeather.js';
+import { getGeoWeather, getGeoForecast, getInputForecast, getInputWeather, switchTemps } from './functions/getWeather.js';
 
 function App() {
   const [date, setDate] = useState(getTheDate());
@@ -19,6 +19,15 @@ function App() {
   const [checked, setChecked] = useState(getDefaultColor());
   const [locationData, setLocationData] = useState();
   const [switched, setSwitched] = useState(false);
+  const [location, setLocation] = useState("Search");
+  const [measurement, setMeasurement] = useState("imperial");
+  const [currentTemp, setCurrentTemp] = useState();
+  const [humidity, setHumidity] = useState();
+  const [wind, setWind] = useState();
+  const [currentHigh, setCurrentHigh] = useState();
+  const [currentLow, setCurrentLow] = useState();
+  const [weatherCondition, setWeatherCondition] = useState();
+  const [weatherResults, setWeatherResults] = useState();
 
   useEffect(() => {
     setMorning(isMorning());
@@ -28,19 +37,41 @@ function App() {
     const updateTime = setInterval(() => {
       setTimeSetting(getTheTime(timeVer));
     }, 10000);
-  })
+  }, []);
 
   const handleCheckedChange = () => {
     setChecked(!checked);
   };
   const handleSwitched = () => {
     setSwitched(!switched);
-    console.log(switched);
   };
 
-  const handleSearch = (data) => {
-    const forecastData = getInputForecast(data);
-    const weatherData = getInputWeather(data);
+  const setter = () => {
+    if(switched === false){
+      setMeasurement("metric");
+      setCurrentTemp(weatherResults.metric.weather.main.temp);
+      setCurrentHigh(weatherResults.metric.weather.main.temp_max);
+      setCurrentLow(weatherResults.metric.weather.main.temp_min);
+    } else if (switched) {
+      setMeasurement("imperial");
+      setCurrentTemp(weatherResults.imperial.weather.main.temp);
+      setCurrentHigh(weatherResults.imperial.weather.main.temp_max);
+      setCurrentLow(weatherResults.imperial.weather.main.temp_min);
+      setLocation(locationData);
+    }
+  }
+  const handleSearch = async (location) => {
+    console.log(measurement);
+    const weatherDataImperial = await getInputWeather(location, "imperial");
+    console.log(weatherDataImperial);
+    const weatherDataMetric = await getInputWeather(location, "metric");
+    console.log(weatherDataMetric);
+    const forecastDataImperial = await getInputForecast(location, "imperial");
+    const forecastDataMetric = await getInputForecast(location, "metric");
+    setWeatherResults({imperial: {weather:weatherDataImperial, forecast:forecastDataImperial}, metric: {weather:weatherDataMetric, forecast:forecastDataMetric}});
+    setCurrentTemp(weatherDataImperial.main.temp);
+    setCurrentHigh(weatherDataImperial.main.temp_max);
+    setCurrentLow(weatherDataImperial.main.temp_min);
   }
 
   return (
@@ -56,16 +87,16 @@ function App() {
         <hr/>
         <div className="row">
           <div className="col-sm-7">
-            <h3>Location</h3>
-            <p>Conditions</p>
-            <p><span>Humidity</span> | <span>Windspeed</span></p>
+            <h3>{location}</h3>
+            <p>Current Weather: {weatherCondition}</p>
+            <p><span>Humidity: {humidity}%</span> | <span>Wind: {wind} {measurement === 'imperial' ? ("mph") : "kmph"}</span></p>
           </div>
           <div className="col-sm-3">
 
           </div>
           <div className="col-sm-2">
-            <h3>Temp</h3>
-            <p><span>High</span> | <span>Low</span></p>
+            <h3>{currentTemp}°</h3>
+            <p><span>{currentHigh}°</span> | <span>{currentLow}°</span></p>
           </div>
         </div><br/>
         <div className="row">
@@ -77,7 +108,9 @@ function App() {
         <div className="col-sm-3" onClick={()=>handleCheckedChange()}>
           <DarkMode checked={checked} setChecked={setChecked}/>
         </div>
-        <div className="col-sm-3" onClick={()=>handleSwitched()}>
+        <div className="col-sm-3" onClick={async ()=>{
+          await handleSwitched();
+          }}>
           <TempSwitcher switched={switched} checked={checked} setSwitched={setSwitched}/>
         </div>
       </div>
