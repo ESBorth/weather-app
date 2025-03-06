@@ -6,7 +6,7 @@ to reference this project for features. See notes on features below.
 ## Features
 ### Good Morning, Good Afternoon, Good Night
 Description: This feature reads the time of day, and uses a ternery to determine what 
-kind of greeting the user will see.
+kind of greeting the user will see. <br>
 Files Used: App.js:
 
 ### Calendar Day
