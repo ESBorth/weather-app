@@ -37,15 +37,4 @@ export async function getInputForecast (input, measurement) {
     const data = await geoDecoder(input);
 }
 
-export function switchTemps (temp, measurement) {
-    console.log(measurement);
-    let x = temp;
-    if (measurement === "imperial"){
-        x = Math.floor(((x - 32)) * ((5/9)));
-    } 
-    if (measurement === "metric")  {
-        x = Math.floor((x * (1.8)) + 32);
-    }
-    return x;
-}
 //Add error catch for zipcode if not all 5 characters are numbers
