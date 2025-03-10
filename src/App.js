@@ -34,6 +34,7 @@ function App() {
 
   useEffect(() => {
     setMorning(isMorning());
+    console.log(switched);
     const updateDate = setInterval(() => {
       setDate(getTheDate());
     }, 360000000);
